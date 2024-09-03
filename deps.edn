@@ -1,0 +1,15 @@
+{
+ :paths     ["src/clj" "src/cljc" "src/cljs" "resources"]
+ :mvn/repos {"my.datomic.com" {:url "https://my.datomic.com/repo"}
+             "maven_central"  {:url "https://repo.maven.apache.org/maven2/"}}
+ :deps      {com.cleancoders.c3kit/bucket        {:git/url "git@github.com:cleancoders/c3kit-bucket.git" :git/sha "4c6ab21c20da27c9ab044cedfc1d0429ab49b507"}
+             org.clojure/clojure                                       {:mvn/version "1.11.1"}
+             }
+ :aliases   {
+             :test     {:extra-deps  {
+                                      speclj/speclj                  {:mvn/version "3.4.1"}
+                                      }
+                        :extra-paths ["dev" "spec/clj" "spec/cljc" "spec/cljs"]}
+             :spec     {:main-opts ["-m" "speclj.main" "-c"]}
+             }
+ }
