@@ -12,29 +12,29 @@
 (defn touch [file]
   (spit file nil :append true))
 
-(defn meta-file [config]
-  (let [file (str (:src config) "/.metadata.edn")]
+(defn meta-file [path]
+  (let [file (str path "/.metadata.edn")]
     (touch file)
     file))
 
-(defn meta-data [config]
-  (utilc/<-edn (slurp (meta-file config))))
+(defn meta-data [path]
+  (utilc/<-edn (slurp (meta-file path))))
 
 (defn find-files 
-  ([config]
-   (map get-name (get-files (:src config)))) 
-  ([config filter-fn]
-   (filter #(filter-fn (get (meta-data config) %)) (find-files config))))
+  ([path]
+   (map get-name (get-files path))) 
+  ([path filter-fn]
+   (filter #(filter-fn (get (meta-data path) %)) (find-files path))))
 
-(defn change-meta [change-fn config file value]
-  (let [meta-file (meta-file config)]
+(defn change-meta [change-fn path file value]
+  (let [meta-file (meta-file path)]
     (spit meta-file (change-fn (utilc/<-edn (slurp meta-file)) file value))))
 
-(defn assoc-meta [config file value]
-  (change-meta assoc config file value))
+(defn assoc-meta [path file value]
+  (change-meta assoc path file value))
 
-(defn update-meta [config file f]
-  (change-meta update config file f))
+(defn update-meta [path file f]
+  (change-meta update path file f))
 
-(defn get-meta [config file]
-  (get (utilc/<-edn (slurp (meta-file config))) file))
+(defn get-meta [path file]
+  (get (utilc/<-edn (slurp (meta-file path))) file))
